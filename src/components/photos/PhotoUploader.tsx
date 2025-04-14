@@ -2,15 +2,17 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { Upload, X } from "lucide-react";
+import { Upload, X, Type } from "lucide-react";
 
 type PhotoUploaderProps = {
-  onUpload: (photos: { id: string; url: string; name: string; date: string }[]) => void;
+  onUpload: (photos: { id: string; url: string; name: string; date: string; caption: string }[]) => void;
 };
 
 export default function PhotoUploader({ onUpload }: PhotoUploaderProps) {
-  const [previews, setPreviews] = useState<{ file: File; preview: string }[]>([]);
+  const [previews, setPreviews] = useState<{ file: File; preview: string; caption: string }[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -21,7 +23,8 @@ export default function PhotoUploader({ onUpload }: PhotoUploaderProps) {
       // Create previews for the selected files
       const newPreviews = newFiles.map(file => ({
         file,
-        preview: URL.createObjectURL(file)
+        preview: URL.createObjectURL(file),
+        caption: ""
       }));
       
       setPreviews([...previews, ...newPreviews]);
@@ -35,6 +38,12 @@ export default function PhotoUploader({ onUpload }: PhotoUploaderProps) {
     URL.revokeObjectURL(updatedPreviews[index].preview);
     
     updatedPreviews.splice(index, 1);
+    setPreviews(updatedPreviews);
+  };
+
+  const updateCaption = (index: number, caption: string) => {
+    const updatedPreviews = [...previews];
+    updatedPreviews[index].caption = caption;
     setPreviews(updatedPreviews);
   };
   
@@ -53,7 +62,8 @@ export default function PhotoUploader({ onUpload }: PhotoUploaderProps) {
         id: `photo-${Date.now()}-${index}`,
         url: item.preview,
         name: item.file.name,
-        date: new Date().toISOString()
+        date: new Date().toISOString(),
+        caption: item.caption
       }));
       
       onUpload(uploadedPhotos);
@@ -87,7 +97,8 @@ export default function PhotoUploader({ onUpload }: PhotoUploaderProps) {
       // Create previews for the image files
       const newPreviews = imageFiles.map(file => ({
         file,
-        preview: URL.createObjectURL(file)
+        preview: URL.createObjectURL(file),
+        caption: ""
       }));
       
       setPreviews([...previews, ...newPreviews]);
@@ -130,21 +141,45 @@ export default function PhotoUploader({ onUpload }: PhotoUploaderProps) {
       
       {previews.length > 0 && (
         <div className="space-y-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             {previews.map((item, index) => (
-              <div key={index} className="relative group aspect-square rounded-md overflow-hidden border border-warm-200">
-                <img 
-                  src={item.preview} 
-                  alt={`Preview ${index}`} 
-                  className="w-full h-full object-cover" 
-                />
-                <button
-                  type="button"
-                  onClick={() => removePreview(index)}
-                  className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <X size={16} className="text-warm-800" />
-                </button>
+              <div key={index} className="relative group rounded-md overflow-hidden border border-warm-200 p-4">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="w-full sm:w-1/3 aspect-square">
+                    <img 
+                      src={item.preview} 
+                      alt={`Preview ${index}`} 
+                      className="w-full h-full object-cover rounded-md" 
+                    />
+                  </div>
+                  <div className="flex-1 space-y-3">
+                    <div className="flex justify-between items-start">
+                      <h4 className="font-medium text-warm-800 truncate" title={item.file.name}>
+                        {item.file.name}
+                      </h4>
+                      <button
+                        type="button"
+                        onClick={() => removePreview(index)}
+                        className="bg-white rounded-full p-1 shadow-md"
+                      >
+                        <X size={16} className="text-warm-800" />
+                      </button>
+                    </div>
+                    <div>
+                      <label htmlFor={`caption-${index}`} className="block text-sm font-medium text-warm-700 mb-1">
+                        <Type size={16} className="inline mr-1" />
+                        Add a caption
+                      </label>
+                      <Textarea
+                        id={`caption-${index}`}
+                        placeholder="Write a caption for this photo..."
+                        value={item.caption}
+                        onChange={(e) => updateCaption(index, e.target.value)}
+                        className="resize-none border-warm-200 focus:border-warm-400"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

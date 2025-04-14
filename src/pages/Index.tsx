@@ -20,6 +20,7 @@ type Photo = {
   url: string;
   name: string;
   date: string;
+  caption?: string;
 };
 
 // Default user data
@@ -36,18 +37,21 @@ const samplePhotos: Photo[] = [
     url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     name: "Summer Vacation",
     date: "2023-06-15T15:32:00Z",
+    caption: "Beautiful beach house we stayed at last summer."
   },
   {
     id: "photo-2",
     url: "https://images.unsplash.com/photo-1567351344546-effdded342f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     name: "Family Gathering",
     date: "2023-07-22T09:12:00Z",
+    caption: "Annual family reunion at grandma's house."
   },
   {
     id: "photo-3",
     url: "https://images.unsplash.com/photo-1623944893329-b7dff6b9b8c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     name: "Birthday Party",
     date: "2023-08-10T18:45:00Z",
+    caption: "My 30th birthday celebration with friends."
   },
 ];
 

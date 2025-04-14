@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Download, Trash2, Grid, List, Image } from "lucide-react";
+import { Download, Trash2, Grid, List, Image, Type } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,6 +20,7 @@ type Photo = {
   url: string;
   name: string;
   date: string;
+  caption?: string;
 };
 
 type PhotoGalleryProps = {
@@ -119,31 +120,42 @@ export default function PhotoGallery({ photos, onDeletePhoto }: PhotoGalleryProp
                 />
               </div>
               <CardContent className={`p-3 ${viewMode === "list" ? "flex-1 flex justify-between items-center" : ""}`}>
-                <div>
+                <div className="w-full">
                   <h3 className="font-medium text-warm-800 truncate" title={photo.name}>
                     {photo.name}
                   </h3>
                   <p className="text-xs text-warm-500">{formatDate(photo.date)}</p>
-                </div>
-                <div className={`flex gap-2 mt-2 ${viewMode === "list" ? "mt-0" : ""}`}>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleDownload(photo)}
-                    className="border-warm-300 text-warm-700 hover:bg-warm-100"
-                  >
-                    <Download size={16} />
-                    <span className="sr-only">Download</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => confirmDelete(photo.id)}
-                    className="border-warm-300 text-destructive hover:bg-destructive/10"
-                  >
-                    <Trash2 size={16} />
-                    <span className="sr-only">Delete</span>
-                  </Button>
+                  
+                  {photo.caption && (
+                    <div className="mt-2 border-t border-warm-100 pt-2">
+                      <div className="flex items-center gap-1 text-xs text-warm-600 mb-1">
+                        <Type size={12} />
+                        <span>Caption:</span>
+                      </div>
+                      <p className="text-sm text-warm-800 line-clamp-2">{photo.caption}</p>
+                    </div>
+                  )}
+                  
+                  <div className={`flex gap-2 mt-3 ${viewMode === "list" ? "justify-end" : ""}`}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDownload(photo)}
+                      className="border-warm-300 text-warm-700 hover:bg-warm-100"
+                    >
+                      <Download size={16} />
+                      <span className="sr-only">Download</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => confirmDelete(photo.id)}
+                      className="border-warm-300 text-destructive hover:bg-destructive/10"
+                    >
+                      <Trash2 size={16} />
+                      <span className="sr-only">Delete</span>
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
