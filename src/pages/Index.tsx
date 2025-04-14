@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import AuthForm from "@/components/auth/AuthForm";
@@ -123,8 +122,8 @@ const Index = () => {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center bg-warm-50 p-4">
         <div className="mb-6 text-center">
-          <h1 className="text-4xl font-serif font-bold text-warm-900 mb-2">PhotoKeepsake</h1>
-          <p className="text-warm-700">Your personal photo gallery</p>
+          <h1 className="text-4xl font-serif font-bold text-warm-900 mb-2">ShomiGram</h1>
+          <p className="text-warm-700">Share your moments</p>
         </div>
         <AuthForm onLogin={handleLogin} />
       </div>

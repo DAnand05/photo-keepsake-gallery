@@ -1,8 +1,12 @@
-# Welcome to your Lovable project
+# Welcome to ShomiGram
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/32ff065d-5c16-4957-92e6-9f1be1c147bf
+
+## What is ShomiGram?
+
+ShomiGram is a photo-sharing application that allows users to upload, organize, and share their memorable moments in one secure place.
 
 ## How can I edit this code?
 

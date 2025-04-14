@@ -13,7 +13,7 @@ export default function Header({ username, onLogout }: HeaderProps) {
       <div className="container flex items-center justify-between h-16 px-4 max-w-7xl mx-auto">
         <div className="flex items-center space-x-2">
           <Camera className="h-6 w-6 text-warm-600" />
-          <h1 className="text-xl font-serif font-medium text-warm-900">PhotoKeepsake</h1>
+          <h1 className="text-xl font-serif font-medium text-warm-900">ShomiGram</h1>
         </div>
         
         <div className="flex items-center gap-4">
